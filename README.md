@@ -51,6 +51,10 @@ exit 101
 EOF
 chmod 755 /mnt/target/usr/sbin/policy-rc.d
 ```
+- Download the `excito-release-buster` package for later install:
+```
+wget -O/mnt/target/root/excito-release-buster.deb http://repo.excito.org/excito-release-buster.deb
+```
 - Chroot into the system and setup the environment:
 ```
 chroot /mnt/target /bin/bash
@@ -71,9 +75,8 @@ cat >> /etc/apt/sources.list << EOF
 deb http://security.debian.org/ buster/updates main
 EOF
 ```
-- Download and install the `excito-release-buster` package:
+- Install the `excito-release-buster` package:
 ```
-wget -q http://repo.excito.org/excito-release-buster.deb
 dpkg -i excito-release-buster.deb
 rm excito-release-buster.deb
 ```
@@ -90,10 +93,6 @@ apt-get -y install bubba3-kernel b3-utils
 ```
 apt-get -y install locales
 tasksel install --new-install standard ssh-server
-```
-- [Optional] Install easyfind-client:
-```
-apt-get -y install easyfind-client
 ```
 
 ### [Optional] Install u-boot-tools to access u-boot configuration
@@ -127,16 +126,6 @@ passwd excito
 
 ### System configuration
 
-- Reconfigure the exim4 mail server with the following answers:
-`dpkg-reconfigure exim4-config`
-  - General type of mail configuration: `local delivery only; not on a network`
-  - System mail name: `b3` for the B3
-  - IP-addresses to listen: `127.0.0.1 ; ::1`
-  - Other destinations: *empty*
-  - Keep number of DNS-queries minimal: `No`
-  - Delivery method for local mail: `mbox format in /var/mail`
-  - Split configuration into small files: `No`
-  - Root and postmaster mail recipient: `excito`
 - Configure the network:
 ```
 cat >> /etc/network/interfaces << EOF
@@ -158,7 +147,9 @@ EOF
 ```
 echo "b3" > /etc/hostname
 ```
+
 ### Cleanup
+
 - Empty apt cache:
 ```
 apt-get clean
@@ -185,13 +176,14 @@ umount /mnt/target/proc
 ```
 
 ### `first-boot` files and tarball creation ###
+
 - Download and extract the first-boot release tarball into target:
 ```
-wget -O/mnt/target/first-boot.txz https://github.com/Excito/stretch-image/releases/download/v1.0/first-boot-1.0.txz
+wget -O/mnt/target/first-boot.txz https://github.com/Excito/buster-image/releases/download/v1.0/first-boot-1.0.txz
 ( cd /mnt/target; tar -xvf first-boot.txz )
 rm /mnt/target/first-boot.txz
 ```
 - Now that the image files are ready, go ahead and create the final tarball:
 ```
-( cd /mnt/target; tar -cJvf /root/stretch-image.txz .)
+( cd /mnt/target; tar -cJvf /root/buster-image.txz .)
 ```

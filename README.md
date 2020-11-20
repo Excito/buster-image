@@ -33,7 +33,7 @@ mkdir /mnt/target
 ```
 - Debootstrap stretch:
 ```
-debootstrap --arch=armel buster /mnt/target 
+debootstrap --arch=armel buster /mnt/target http://deb.debian.org/debian
 ```
 - Mount the kernel filesystems:
 ```
@@ -179,7 +179,7 @@ umount /mnt/target/proc
 
 - Download and extract the first-boot release tarball into target:
 ```
-wget -O/mnt/target/first-boot.txz https://github.com/Excito/buster-image/releases/download/v1.0/first-boot-1.0.txz
+wget -O/mnt/target/first-boot.txz https://github.com/Excito/buster-image/releases/download/v1.1/first-boot-1.1.txz
 ( cd /mnt/target; tar -xvf first-boot.txz )
 rm /mnt/target/first-boot.txz
 ```
